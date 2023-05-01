@@ -10,5 +10,6 @@ char* intToCStr(int num);
 void showNextEquation();
 void mathGameLabel();
 void mathGameMain();
+void getNextEquation();
 
-#endif MATH_GAME_H
+#endif 

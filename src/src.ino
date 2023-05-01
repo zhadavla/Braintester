@@ -14,6 +14,7 @@ void setup() {
     EsploraTFT.stroke(0, 255, 255); 
     EsploraTFT.text("LEDs\n ", 50, 50);
     EsploraTFT.text("Highest score\n ", 5, 75);
+    srand(time(NULL));
 }
 
 int menuState = MATH_SEL;
