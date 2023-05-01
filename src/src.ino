@@ -1,11 +1,28 @@
+#include <Esplora.h>
+#include <TFT.h>
+#include <SPI.h>
+
+
 
 void setup() {
-  // put your setup code here, to run once:
-
+   EsploraTFT.begin();
+    EsploraTFT.background(0, 0, 0);
+    EsploraTFT.stroke(255, 255, 0);
+    EsploraTFT.setTextSize(3);
+    EsploraTFT.text("Main menu:\n", 0, 0);
+    EsploraTFT.setTextSize(2);
+    EsploraTFT.stroke(0, 0, 255); // Math game selected at the begining
+    EsploraTFT.text("Math game", 30, 25);
+    EsploraTFT.stroke(100, 255, 255); // std color for menu
+    EsploraTFT.text("LEDs\n ", 50, 50);
+    EsploraTFT.text("Highest score\n ", 5, 75);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
+  
+
+}
+
 
 void highlightMenuOption(int x, int y, const char *txt) {
     const char *text = txt;
