@@ -1,4 +1,4 @@
-#include "mainHeader.h"
+#include "mathGame.h" 
 #include "mainMenu.h"
 
 void setup() {
@@ -41,6 +41,28 @@ void loop() {
     delay(100);
     while(!Esplora.readButton(SWITCH_UP));
   }
+  
+  if (!Esplora.readButton(SWITCH_RIGHT)){
+    if (menuState == MATH_SEL)
+      menuState = MATH_GAME;
+    
+    updateMenuState();
+    Serial.println("THERE 1");
+    delay(100);
+    while (!Esplora.readButton(SWITCH_RIGHT));
+  }
+
+  if (!Esplora.readButton(SWITCH_LEFT)){
+     if (menuState == MATH_GAME){
+      menuState = MATH_SEL;
+      mainMenuShow();
+     }
+      
+    updateMenuState();
+    Serial.println("THERE 4");
+    delay(100);
+    while (!Esplora.readButton(SWITCH_LEFT));
+  }
 }
 
 void updateMenuState(){
@@ -53,6 +75,9 @@ void updateMenuState(){
        break;
     case SCORE_SEL:
       highlightMenuOption(5, 75, "Highest score");
+      break;
+    case MATH_GAME:
+      mathGameLabel();
       break;
    }
   
