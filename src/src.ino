@@ -2,7 +2,7 @@
 #include <TFT.h>
 #include <SPI.h>
 
-
+int menu = 0;
 
 void setup() {
    EsploraTFT.begin();
@@ -23,6 +23,20 @@ void loop() {
 
 }
 
+void updateMenu(){
+  switch (menu){
+    case 0: 
+       highlightMenuOption(30, 25, "Math game");
+       break;
+    case 1:
+       highlightMenuOption(50, 50, "LEDs");
+       break;
+    case 2:
+      highlightMenuOption(5, 75, "Highest score");
+      break;
+   }
+  
+}
 
 void highlightMenuOption(int x, int y, const char *txt) {
     const char *text = txt;
