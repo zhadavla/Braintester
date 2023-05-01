@@ -10,45 +10,62 @@ void setup() {
     EsploraTFT.background(0, 0, 0);
     EsploraTFT.stroke(255, 255, 0);
     EsploraTFT.setTextSize(3);
-    EsploraTFT.text("Main menu:\n", 0, 0);
+    EsploraTFT.text("Main menuState:\n", 0, 0);
     EsploraTFT.setTextSize(2);
     EsploraTFT.stroke(0, 0, 255); // Math game selected at the begining
     EsploraTFT.text("Math game", 30, 25);
-    EsploraTFT.stroke(100, 255, 255); // std color for menu
+    EsploraTFT.stroke(100, 255, 255); // std color for menuState
     EsploraTFT.text("LEDs\n ", 50, 50);
     EsploraTFT.text("Highest score\n ", 5, 75);
 }
 
+int gameState = 14;
+
+enum GAME_STATES{
+  MATH_SEL, LED_SEL, SCORE_SEL, MATH_GAME
+};
+
+int menuState = MATH_SEL;
+
 void loop() {
-  Serial.println(menu);
+  Serial.println(gameState);
+  
   if (!Esplora.readButton(SWITCH_DOWN)){
-    menu++;
-    menu %= 3;;
-    updateMenu();
+    if (menuState == MATH_SEL)
+      menuState = LED_SEL;
+    else if (menuState == LED_SEL)
+      menuState = SCORE_SEL;
+    else if (menuState == SCORE_SEL)
+      menuState = MATH_SEL;
+   
+//    menuState++;
+//    menuState %= 3;;
+    updateMenuState();
     delay(100);
     while (!Esplora.readButton(SWITCH_DOWN));
   }
   if (!Esplora.readButton(SWITCH_UP)){
-    menu--;
-    if (menu < 0)
-      menu += 3;
-    else
-      menu = menu % 3;
-    updateMenu();
+    if (menuState == MATH_SEL)
+      menuState = SCORE_SEL;
+    else if (menuState == LED_SEL)
+      menuState = MATH_SEL;
+    else if (menuState == SCORE_SEL)
+      menuState = LED_SEL;
+    updateMenuState();
     delay(100);
     while(!Esplora.readButton(SWITCH_UP));
   }
 }
 
-void updateMenu(){
-  switch (menu){
-    case 0: 
+void updateMenuState(){
+  switch (menuState){
+    case MATH_SEL: 
        highlightMenuOption(30, 25, "Math game");
        break;
-    case 1:
+    case LED_SEL:
        highlightMenuOption(50, 50, "LEDs");
        break;
-    case 2:
+    case SCORE_SEL:
       highlightMenuOption(5, 75, "Highest score");
       break;
    }
