@@ -17,9 +17,10 @@ void setup() {
 }
 
 int menuState = MATH_SEL;
+int prevState = -1;
 
 void loop() {  
-  if (!Esplora.readButton(SWITCH_DOWN)){
+  if (!Esplora.readButton(SWITCH_DOWN) && prevState != MATH_GAME){
     if (menuState == MATH_SEL)
       menuState = LED_SEL;
     else if (menuState == LED_SEL)
@@ -30,7 +31,7 @@ void loop() {
     delay(100);
     while (!Esplora.readButton(SWITCH_DOWN));
   }
-  if (!Esplora.readButton(SWITCH_UP)){
+  if (!Esplora.readButton(SWITCH_UP) && prevState != MATH_GAME){
     if (menuState == MATH_SEL)
       menuState = SCORE_SEL;
     else if (menuState == LED_SEL)
@@ -42,9 +43,12 @@ void loop() {
     while(!Esplora.readButton(SWITCH_UP));
   }
   
-  if (!Esplora.readButton(SWITCH_RIGHT)){
-    if (menuState == MATH_SEL)
+  if (!Esplora.readButton(SWITCH_RIGHT) && prevState != MATH_GAME){
+    if (menuState == MATH_SEL){
       menuState = MATH_GAME;
+      prevState = MATH_GAME;
+    }
+      
     
     updateMenuState();
     Serial.println("THERE 1");
@@ -55,6 +59,7 @@ void loop() {
   if (!Esplora.readButton(SWITCH_LEFT)){
      if (menuState == MATH_GAME){
       menuState = MATH_SEL;
+      prevState = -1;
       mainMenuShow();
      }
       
