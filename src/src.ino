@@ -5,6 +5,7 @@
 int menu = 0;
 
 void setup() {
+  Serial.begin(9600);
    EsploraTFT.begin();
     EsploraTFT.background(0, 0, 0);
     EsploraTFT.stroke(255, 255, 0);
@@ -19,14 +20,20 @@ void setup() {
 }
 
 void loop() {
+  Serial.println(menu);
   if (!Esplora.readButton(SWITCH_DOWN)){
     menu++;
+    menu %= 3;;
     updateMenu();
     delay(100);
     while (!Esplora.readButton(SWITCH_DOWN));
   }
   if (!Esplora.readButton(SWITCH_UP)){
     menu--;
+    if (menu < 0)
+      menu += 3;
+    else
+      menu = menu % 3;
     updateMenu();
     delay(100);
     while(!Esplora.readButton(SWITCH_UP));
