@@ -19,8 +19,18 @@ void setup() {
 }
 
 void loop() {
-  
-
+  if (!Esplora.readButton(SWITCH_DOWN)){
+    menu++;
+    updateMenu();
+    delay(100);
+    while (!Esplora.readButton(SWITCH_DOWN));
+  }
+  if (!Esplora.readButton(SWITCH_UP)){
+    menu--;
+    updateMenu();
+    delay(100);
+    while(!Esplora.readButton(SWITCH_UP));
+  }
 }
 
 void updateMenu(){
