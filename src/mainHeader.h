@@ -8,5 +8,8 @@ enum GAME_STATES{
 #include <Esplora.h>
 #include <TFT.h>
 #include <SPI.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #endif MAIN_HEADER_H

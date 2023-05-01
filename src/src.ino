@@ -5,13 +5,13 @@ void setup() {
   Serial.begin(9600);
    EsploraTFT.begin();
     EsploraTFT.background(0, 0, 0);
-    EsploraTFT.stroke(255, 255, 0);
+    EsploraTFT.stroke(0, 255, 0);
     EsploraTFT.setTextSize(3);
     EsploraTFT.text("Main menu", 0, 0);
     EsploraTFT.setTextSize(2);
-    EsploraTFT.stroke(0, 0, 255); // Math game selected at the begining
+    EsploraTFT.stroke(255, 0, 0);
     EsploraTFT.text("Math game", 30, 25);
-    EsploraTFT.stroke(100, 255, 255); // std color for menuState
+    EsploraTFT.stroke(0, 255, 255); 
     EsploraTFT.text("LEDs\n ", 50, 50);
     EsploraTFT.text("Highest score\n ", 5, 75);
 }
@@ -77,7 +77,7 @@ void updateMenuState(){
       highlightMenuOption(5, 75, "Highest score");
       break;
     case MATH_GAME:
-      mathGameLabel();
+      mathGameMain();
       break;
    }
   
