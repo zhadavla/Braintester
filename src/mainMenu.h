@@ -7,4 +7,4 @@
 void mainMenuShow();
 void highlightMenuOption(int x, int y, const char *txt);
 
-#endif MAIN_MENU_H
+#endif
