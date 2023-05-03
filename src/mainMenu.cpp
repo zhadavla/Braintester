@@ -1,6 +1,5 @@
 #include "mainMenu.h"
-
-
+#include "mathGame.h"
 void menuInit(){
     EsploraTFT.background(0, 0, 0);
     EsploraTFT.stroke(0, 255, 0);
@@ -37,4 +36,22 @@ void highlightMenuOption(int x, int y, const char *txt) {
         EsploraTFT.text("Math game", 30, 25);
         EsploraTFT.text("LEDs", 50, 50);
     }
+}
+
+void updateMenuState(){
+  switch (menuState){
+    case MATH_SEL: 
+       highlightMenuOption(30, 25, "Math game");
+       break;
+    case LED_SEL:
+       highlightMenuOption(50, 50, "LEDs");
+       break;
+    case SCORE_SEL:
+      highlightMenuOption(5, 75, "Highest score");
+      break;
+    case MATH_GAME:
+      mathGameMain();
+      break;
+   }
+  
 }
