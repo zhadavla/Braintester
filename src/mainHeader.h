@@ -1,8 +1,12 @@
 #ifndef MAIN_HEADER_H
 #define MAIN_HEADER_H
 
+enum MENU_STATES{
+  MATH_SEL, LED_SEL, SCORE_SEL
+};
+
 enum GAME_STATES{
-  MATH_SEL, LED_SEL, SCORE_SEL, MATH_GAME
+  SELECTION, MATH_GAME
 };
 
 #include <Esplora.h>

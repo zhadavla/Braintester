@@ -8,7 +8,6 @@ void mathGameLabel() {
     EsploraTFT.setTextSize(3);
     EsploraTFT.text("Math game", 0, 0);
     EsploraTFT.setTextSize(2);
-//    Serial.println(makeEquationString(1,2,3))/;
 }
 
 int result1, result2, result, a, b;  
@@ -16,8 +15,6 @@ int difficultyLevel = 1;
 
 void mathGameMain() {
   mathGameLabel();
-  getSum();
-  showNextEquation();
 }
 
 void getSum(){   

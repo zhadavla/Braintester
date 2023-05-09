@@ -9,8 +9,8 @@ char* makeEquationString(int x, int y, char operation);
 char* intToCStr(int num);
 void showNextEquation();
 void mathGameLabel();
-void mathGameMain();
 void getNextEquation();
 void getSum();
+void mathGameMain();
 
 #endif 

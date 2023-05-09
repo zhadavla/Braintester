@@ -9,56 +9,65 @@ void setup() {
 }
 
 int menuState = MATH_SEL;
+int gameState = SELECTION;
 int prevState = -1;
 
 void loop() {  
-  if (!Esplora.readButton(SWITCH_DOWN) && prevState != MATH_GAME){
-    if (menuState == MATH_SEL)
-      menuState = LED_SEL;
-    else if (menuState == LED_SEL)
-      menuState = SCORE_SEL;
-    else if (menuState == SCORE_SEL)
-      menuState = MATH_SEL;
-    updateMenuState();
-    delay(100);
-    while (!Esplora.readButton(SWITCH_DOWN));
-  }
-  if (!Esplora.readButton(SWITCH_UP) && prevState != MATH_GAME){
-    if (menuState == MATH_SEL)
-      menuState = SCORE_SEL;
-    else if (menuState == LED_SEL)
-      menuState = MATH_SEL;
-    else if (menuState == SCORE_SEL)
-      menuState = LED_SEL;
-    updateMenuState();
-    delay(100);
-    while(!Esplora.readButton(SWITCH_UP));
-  }
-  
-  if (!Esplora.readButton(SWITCH_RIGHT) && prevState != MATH_GAME){
-    if (menuState == MATH_SEL){
-      menuState = MATH_GAME;
-      prevState = MATH_SEL;
-    }
-      
-    
-    updateMenuState();
-    Serial.println("THERE 1");
-    delay(100);
-    while (!Esplora.readButton(SWITCH_RIGHT));
-  }
+  if (gameState == SELECTION){
+     if (!Esplora.readButton(SWITCH_DOWN)){
+        if (menuState == MATH_SEL)
+          menuState = LED_SEL;
+        else if (menuState == LED_SEL)
+          menuState = SCORE_SEL;
+        else if (menuState == SCORE_SEL)
+          menuState = MATH_SEL;
+        updateMenuState();
+        delay(100);
+        while (!Esplora.readButton(SWITCH_DOWN));
+      }
 
-  if (!Esplora.readButton(SWITCH_LEFT)){
-     if (menuState == MATH_GAME){
-      menuState = MATH_SEL;
-      prevState = -1;
-      mainMenuShow();
-     }
+
+    if (!Esplora.readButton(SWITCH_UP)){
+      if (menuState == MATH_SEL)
+        menuState = SCORE_SEL;
+      else if (menuState == LED_SEL)
+        menuState = MATH_SEL;
+      else if (menuState == SCORE_SEL)
+        menuState = LED_SEL;
+      updateMenuState();
+      delay(100);
+      while(!Esplora.readButton(SWITCH_UP));
+    }
+
+
+    if (!Esplora.readButton(SWITCH_RIGHT)){
+      if (menuState == MATH_SEL){
+        gameState = MATH_GAME;
+        mathGameMain();
+      }
+        
+      else
+        gameState = SELECTION;
       
-    updateMenuState();
-    Serial.println("THERE 4");
+      
+      delay(100);
+      while (!Esplora.readButton(SWITCH_RIGHT));
+      }
+    }
+
+
+    
+  if (gameState == MATH_GAME){
+    if (!Esplora.readButton(SWITCH_LEFT)){
+     
+    menuState = MATH_SEL;
+    gameState = SELECTION;
+    menuInit();
+    
+    
     delay(100);
     while (!Esplora.readButton(SWITCH_LEFT));
+    }
   }
 }
 
@@ -73,9 +82,6 @@ void updateMenuState(){
        break;
     case SCORE_SEL:
       highlightMenuOption(5, 75, "Highest score");
-      break;
-    case MATH_GAME:
-      mathGameMain();
       break;
    }
   
