@@ -6,9 +6,7 @@ char* intToCStr(int num) {
     int i = 0, j = 0, k = 0;
     char temp;
     
-    char *str = (char*) malloc(sizeof(char) * 5);
-//    if (!str) return NULL; /
-    
+    char *str = new char[5];
     if (num < 0) { 
         str[k++] = '-';
         num = -num;
@@ -18,7 +16,6 @@ char* intToCStr(int num) {
         str[i++] = num % 10 + '0';
         num /= 10;
     } while (num);
-    
     str[i] = '\0'; // add null terminator
     
     if (str[0] == '-') { // reverse string excluding negative sign
@@ -36,7 +33,7 @@ char* intToCStr(int num) {
 
 
 char* makeEquationString(int x, int y, char operation) {
-    char *str = (char*) malloc(sizeof(char) * 20);
+    char *str = new char[20];
     sprintf(str, "%d %c %d = ", x, operation, y); 
     return str; 
 }

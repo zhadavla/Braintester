@@ -2,7 +2,7 @@
 
 int MATH_SCORE;
 
-void mathGameLabel() {
+void mathGameInit() {
     EsploraTFT.background(0, 0, 0);
     EsploraTFT.stroke(255, 255, 0);
     EsploraTFT.setTextSize(3);
@@ -12,10 +12,39 @@ void mathGameLabel() {
 
 int result1, result2, result, a, b;  
 int difficultyLevel = 1;
+int mathState = SEL1;
 
 void mathGameMain() {
-  mathGameLabel();
+  if (!Esplora.readButton(SWITCH_LEFT)){
+    menuState = MATH_SEL;
+    gameState = SELECTION;
+    menuInit();    
+    delay(100);
+    while (!Esplora.readButton(SWITCH_LEFT));
+  }
+
+  if (!Esplora.readButton(SWITCH_UP)){
+      if (menuState == MATH_SEL)
+        menuState = SCORE_SEL;
+      else if (menuState == LED_SEL)
+        menuState = MATH_SEL;
+      else if (menuState == SCORE_SEL)
+        menuState = LED_SEL;
+      updateMenuState();
+      delay(100);
+      while(!Esplora.readButton(SWITCH_UP));
+    }
+  
+  mathGameSwitch();
 }
+
+void mathGameSwitch(){
+  switch(gameState){
+    default:
+      break;
+  }
+}
+
 
 void getSum(){   
    
@@ -55,8 +84,8 @@ void showNextEquation(){
    EsploraTFT.stroke(0, 255, 0);
    const char *answer3char = intToCStr(result);
    EsploraTFT.text(answer3char, 120, randomNum);
-   free(strEquation);
-   free(answeresult1char);
-   free(answeresult2char);
-   free(answer3char);
+   delete[] (strEquation);
+   delete[] (answeresult1char);
+   delete[] (answeresult2char);
+   delete[] (answer3char);
 }

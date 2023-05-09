@@ -22,6 +22,51 @@ void mainMenuShow(){
   EsploraTFT.setTextSize(2);
 }
 
+void switchMenuUp(){
+  switch (menuState) {
+    case MATH_SEL:
+      menuState = SCORE_SEL;
+      break;
+    case LED_SEL:
+      menuState = MATH_SEL;
+      break;
+    case SCORE_SEL:
+      menuState = LED_SEL;
+      break;
+  }
+
+}
+
+void switchMenuDown(){
+  switch (menuState) {
+    case MATH_SEL:
+      menuState = LED_SEL;
+      break;
+    case LED_SEL:
+      menuState = SCORE_SEL;
+      break;
+    case SCORE_SEL:
+      menuState = MATH_SEL;
+      break;
+  }
+
+}
+
+void updateMenuState(){
+  switch (menuState){
+    case MATH_SEL: 
+       highlightMenuOption(30, 25, "Math game");
+       break;
+    case LED_SEL:
+       highlightMenuOption(50, 50, "LEDs");
+       break;
+    case SCORE_SEL:
+      highlightMenuOption(5, 75, "Highest score");
+      break;
+   }
+  
+}
+
 void highlightMenuOption(int x, int y, const char *txt) {
     const char *text = txt;
     EsploraTFT.stroke(255, 0, 0);  
