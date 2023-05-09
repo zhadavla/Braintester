@@ -11,15 +11,11 @@ enum mathSelectionStates{
 };
 
 enum mathGameState{
-  SUM, PRODUCT, SUBSTRACTION, DIVISION
+  SUM, PRODUCT, SUBSTRACTION, DIVISION, INCORRECT
 };
-
-enum answers{
-  CORRECT, INCORRECT  
-};
-
 
 void getProduct();
+void printResults() ;
 void displayExpresion();
 void displayAnswers();
 void getRandomCoordinates();
