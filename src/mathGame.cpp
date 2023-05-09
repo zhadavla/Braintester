@@ -24,22 +24,56 @@ void mathGameMain() {
   }
 
   if (!Esplora.readButton(SWITCH_UP)){
-      if (menuState == MATH_SEL)
-        menuState = SCORE_SEL;
-      else if (menuState == LED_SEL)
-        menuState = MATH_SEL;
-      else if (menuState == SCORE_SEL)
-        menuState = LED_SEL;
-      updateMenuState();
+      mathSwitchUp();
+      updateMathState();
       delay(100);
       while(!Esplora.readButton(SWITCH_UP));
-    }
+  }
+
+  if (!Esplora.readButton(SWITCH_DOWN)){
+      mathSwitchDown();
+      updateMathState();
+      delay(100);
+      while(!Esplora.readButton(SWITCH_DOWN));
+  }
   
   mathGameSwitch();
 }
 
+void updateMathState(){
+  
+}
+
+void mathSwitchUp(){
+  switch (mathState) {
+    case SEL3:
+      mathState = SEL1;
+      break;
+    case SEL1:
+      mathState = SEL2;
+      break;
+    case SEL2:
+      mathState = SEL3;
+      break;
+  }
+}
+
+void mathSwitchDown(){
+  switch (mathState) {
+    case SEL3:
+      mathState = SEL2;
+      break;
+    case SEL2:
+      mathState = SEL1;
+      break;
+    case SEL1:
+      mathState = SEL3;
+      break;
+  }
+}
+
 void mathGameSwitch(){
-  switch(gameState){
+  switch(mathState){
     default:
       break;
   }

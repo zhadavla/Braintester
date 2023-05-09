@@ -6,10 +6,21 @@
 #include "mainHeader.h"
 #include "mainMenu.h"
 
-enum mathStates{
+enum mathSelectionStates{
   SEL1, SEL2, SEL3
 };
 
+enum mathGameState{
+  SUM, PRODUCT, SUBSTRACTION, DIVISION
+};
+
+enum answers{
+  CORRECT, INCORRECT  
+};
+
+void updateMathState();
+void mathSwitchUp();
+void mathSwitchDown();
 char* makeEquationString(int x, int y, char operation);
 char* intToCStr(int num);
 void showNextEquation();
