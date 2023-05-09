@@ -9,6 +9,10 @@ enum GAME_STATES{
   SELECTION, MATH_GAME
 };
 
+extern int menuState;
+extern int gameState;
+extern int prevState;
+
 #include <Esplora.h>
 #include <TFT.h>
 #include <SPI.h>
