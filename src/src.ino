@@ -9,11 +9,11 @@ void setup() {
 }
 
 int menuState = MATH_SEL;
-int gameState = SELECTION;
+int prevGameState = SELECTION;
 int prevState = -1;
 
 void loop() {  
-  if (gameState == SELECTION){
+  if (prevGameState == SELECTION){
      if (!Esplora.readButton(SWITCH_DOWN)){
         switchMenuDown();
         updateMenuState();
@@ -30,18 +30,18 @@ void loop() {
 
     if (!Esplora.readButton(SWITCH_RIGHT)){
       if (menuState == MATH_SEL){
-        gameState = MATH_GAME;
+        prevGameState = MATH_GAME;
         mathGameInit();
       }
       else
-        gameState = SELECTION;
+        prevGameState = SELECTION;
       delay(100);
       while (!Esplora.readButton(SWITCH_RIGHT));
       }
     }
     
   
-  if (gameState == MATH_GAME){
+  if (prevGameState == MATH_GAME){
     mathGameMain();
   }
 }

@@ -18,6 +18,8 @@ enum answers{
   CORRECT, INCORRECT  
 };
 
+
+void getProduct();
 void displayExpresion();
 void displayAnswers();
 void getRandomCoordinates();

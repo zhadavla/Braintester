@@ -10,7 +10,7 @@ enum GAME_STATES{
 };
 
 extern int menuState;
-extern int gameState;
+extern int prevGameState;
 extern int prevState;
 
 #include <Esplora.h>

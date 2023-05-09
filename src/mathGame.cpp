@@ -12,41 +12,42 @@ void mathGameInit() {
 int result1, result2, correctResult, a, b;
 int difficultyLevel = 1;
 int mathSelectedOption = SEL1;
-int mathGameState = SUM;
+int mathPrevGameState = DIVISION;
 char currentSign = '+';
 int coordinates[3];
 
 void mathGameMain() {
   if (!Esplora.readButton(SWITCH_LEFT)) {
     menuState = MATH_SEL;
-    gameState = SELECTION;
+    prevGameState = SELECTION;
     menuInit();
     delay(100);
     while (!Esplora.readButton(SWITCH_LEFT));
   }
 
   if (!Esplora.readButton(SWITCH_RIGHT)) {
+    mathGameSwitch();
     displayMathMenu();
     delay(100);
     while (!Esplora.readButton(SWITCH_RIGHT));
   }
-
+  
   if (!Esplora.readButton(SWITCH_UP)) {
-    mathSwitchUp();
     displayAnswers();
-
+    mathSwitchUp();
+    
     delay(100);
     while (!Esplora.readButton(SWITCH_UP));
   }
 
   if (!Esplora.readButton(SWITCH_DOWN)) {
-    mathSwitchDown();
     displayAnswers();
+    mathSwitchDown();
+    
     delay(100);
     while (!Esplora.readButton(SWITCH_DOWN));
   }
 
-  mathGameSwitch();
 }
 
 void displayMathMenu() {
@@ -65,9 +66,8 @@ void displayExpresion() {
 
 void displayAnswers() {
   getRandomCoordinates();
-  
+
   char *sResult1, *sResult2, *sCorrectResult;
-  // {30, 50, 70};
   switch (mathSelectedOption) {
     case SEL1:
       EsploraTFT.stroke(255, 0, 0);
@@ -107,23 +107,6 @@ void displayAnswers() {
   delete[] (sCorrectResult);
 }
 
-//void updatemathSelectedOption(int y) {
-//
-//  EsploraTFT.stroke(255, 0, 0);
-//  EsploraTFT.text(, x, y);
-//  EsploraTFT.stroke(0, 255, 255);
-//  if (y == 25) {
-//    EsploraTFT.text("LEDs", 50, 50);
-//    EsploraTFT.text("Highest score", 5, 75);
-//  } else if (y == 50) {
-//    EsploraTFT.text("Math game", 30, 25);
-//    EsploraTFT.text("Highest score", 5, 75);
-//  } else {
-//    EsploraTFT.text("Math game", 30, 25);
-//    EsploraTFT.text("LEDs", 50, 50);
-//  }
-//}
-
 void mathSwitchDown() {
   switch (mathSelectedOption) {
     case SEL3:
@@ -153,12 +136,17 @@ void mathSwitchUp() {
 }
 
 void mathGameSwitch() {
-  switch (gameState) {
-    case SUM:
+  switch (mathPrevGameState) {
+    case DIVISION:
       getSum();
       currentSign = '+';
       break;
+    case SUM:
+      getProduct();
+      currentSign = '*';
+      break;
     default:
+
       break;
   }
 }
