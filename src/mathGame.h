@@ -11,5 +11,6 @@ void showNextEquation();
 void mathGameLabel();
 void mathGameMain();
 void getNextEquation();
+void getSum();
 
 #endif 
