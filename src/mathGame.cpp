@@ -142,6 +142,7 @@ void mathGameSwitch() {
       currentSign = '+';
       break;
     case SUM:
+//      if (/
       getProduct();
       currentSign = '*';
       break;
@@ -158,18 +159,24 @@ void getRandomCoordinates() {
   coordinates[0] = possibleCoordinates[randomIndex];
   coordinates[1] = possibleCoordinates[(randomIndex + 1) % 3];
   coordinates[2] = possibleCoordinates[(randomIndex + 2) % 3];
+
+ 
 }
 
 void getSum() {
-
   a = rand() % (difficultyLevel * 10 + 1);
   b = rand() % (difficultyLevel * 10 + 1);
 
-  result1 = rand() % 5 * (a + b);
-  result2 = rand() % 4 * (a + b);
+  int sum = a + b;
 
-  correctResult = a + b; // calculate the result
+  // Generate unique values for result1, result2, and correctResult
+  do {
+    result1 = rand() % (sum + 1); // generate random number between 0 and sum
+    result2 = rand() % (sum + 1); // generate random number between 0 and sum
+    correctResult = a + b;       // calculate the correct result
+  } while (result1 == result2 || result1 == correctResult || result2 == correctResult);
 }
+
 
 void getProduct() {
   a = rand() % (difficultyLevel * 10 + 1);
