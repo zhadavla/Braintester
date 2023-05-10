@@ -16,7 +16,7 @@ int mathPrevGameState = DIVISION;
 int currentMathGameState = SUM;
 char currentSign = '+';
 int coordinates[3];
-int indexesOfResults[3];
+//int indexesOfRe/sults[3];
 int results[3];
 int indexes[3];
 
@@ -188,7 +188,9 @@ bool isCorrectAnswer() {
     if (correctResult == coordinates[i])
       Serial.println(i + " " + correctResult);
   }
-  //  mathSelectedOption = SEL1;/
+  
+  remapResults();
+  
   return ((mathSelectedOption == SEL1 && correctResult == results[indexes[0]])
           || (mathSelectedOption == SEL2 && correctResult == results[indexes[1]])
           || (mathSelectedOption == SEL3 && correctResult == results[indexes[2]]));
@@ -237,8 +239,17 @@ void mathGameSwitch() {
   }
 }
 
+void remapResults() {
+    int remappedArr[3];
 
+    // Copy elements to their new positions in the remapped array
+    for (int i = 0; i < 3; i++)
+        remappedArr[indexes[i]] = results[i];
 
+    // Copy the remapped array back to the original array
+    for (int i = 0; i < 3; i++)
+        results[i] = remappedArr[i];
+}
 
 
 void getRandomCoordinates() {
@@ -248,7 +259,7 @@ void getRandomCoordinates() {
   indexes[0] = randomIndex;
   indexes[1] = (randomIndex + 1) % 3;
   indexes[2] = (randomIndex + 2) % 3;
-//  printIndexes();/
+
   coordinates[0] = possibleCoordinates[indexes[0]];
   coordinates[1] = possibleCoordinates[indexes[1]];
   coordinates[2] = possibleCoordinates[indexes[2]];
@@ -275,6 +286,10 @@ void getSum() {
     result2 = rand() % (sum + 1); // generate random number between 0 and sum
     correctResult = a + b;       // calculate the correct result
   } while (result1 == result2 || result1 == correctResult || result2 == correctResult);
+  
+  results[0] = result1;
+  results[1] = result2;
+  results[2] = correctResult;  
 }
 
 

@@ -15,6 +15,7 @@ enum mathGameState{
 };
 
 void getProduct();
+void remapResults();
 void printResults() ;
 void displayExpresion();
 void displayAnswers();
