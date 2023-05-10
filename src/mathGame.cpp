@@ -107,9 +107,6 @@ void printIndexes() {
 
 void displayAnswers() {
   getRandomCoordinates();
-  results[indexes[0]] = result1;
-  results[indexes[1]] = result2;
-  results[indexes[2]] = correctResult;
 //  printResults();/
   Serial.println("displayAnswers");
 
@@ -191,9 +188,9 @@ bool isCorrectAnswer() {
   
   remapResults();
   
-  return ((mathSelectedOption == SEL1 && correctResult == results[indexes[0]])
-          || (mathSelectedOption == SEL2 && correctResult == results[indexes[1]])
-          || (mathSelectedOption == SEL3 && correctResult == results[indexes[2]]));
+  return ((mathSelectedOption == SEL1 && correctResult == results[0])
+          || (mathSelectedOption == SEL2 && correctResult == results[1])
+          || (mathSelectedOption == SEL3 && correctResult == results[2]));
 }
 
 // + * - /
