@@ -92,6 +92,9 @@ void generateRandomEquation() {
     }
     else {
       options[i] = rand() % (max_num * 2 - MIN_NUM + 1) + MIN_NUM;
+      if (answer < 0)
+        options[i] *= -1;
+     
     }
   }
 
@@ -120,8 +123,6 @@ void userInput() {
   int user_answer = selectedButton();
   
   Serial.println("user_answer: " + String(user_answer));
-//  Serial.println("correct_answer_pos: " + String(correct_answer_pos));
-  
   if (user_answer == correct_answer_pos) {
     correct_answers++;
     numOfCorrectAnswers++;
