@@ -5,6 +5,7 @@
 #include <Arduino.h>
 #include "mainHeader.h"
 #include "mainMenu.h"
+#include "helperStrFunctions.h"
 
 enum mathSelectionStates {
   SEL1, SEL2, SEL3

@@ -2,38 +2,65 @@
 #include <stdlib.h>
 #include <string.h>
 
-char* intToCStr(int num) {
-    int i = 0, j = 0, k = 0;
-    char temp;
-    
-    char *str = new char[5];
-    if (num < 0) { 
-        str[k++] = '-';
-        num = -num;
-    }
-    
-    do { // convert integer to string
-        str[i++] = num % 10 + '0';
-        num /= 10;
-    } while (num);
-    str[i] = '\0'; // add null terminator
-    
-    if (str[0] == '-') { // reverse string excluding negative sign
-        j = 1;
-    }
-    
-    for (i -= 1; j < i; i--, j++) { // reverse string
-        temp = str[i];
-        str[i] = str[j];
-        str[j] = temp;
-    }
-    
-    return str; // return the string
+/*
+    Function get_num_of_digits returns number of digits in the number
+*/
+size_t  get_num_of_digits(int n)
+{
+  size_t  num;
+
+  num = 0;
+  if (n == 0)
+    return (1);
+  if (n < 0)
+  {
+    n *= -1;
+    num++;
+  }
+  while (n > 0)
+  {
+    num++;
+    n /= 10;
+  }
+  return (num);
+}
+
+/*
+    Makes string representation of the number,
+    allocates memory for the string and returns it.
+*/
+char  *ft_itoa(int n)
+{
+  char  *str_num;
+  size_t  num_of_digits;
+
+  if (n == -2147483648)
+    return (strdup("-2147483648"));
+  num_of_digits = get_num_of_digits(n);
+  str_num = (char *)malloc((num_of_digits + 1) * sizeof(char));
+  if (!str_num)
+    return (NULL);
+  str_num[num_of_digits--] = 0;
+  if (n == 0)
+    return (strdup("0"));
+  if (n < 0)
+  {
+    str_num[0] = '-';
+    n *= -1;
+  }
+  while (n > 0)
+  {
+    str_num[num_of_digits] = n % 10 + '0';
+    n /= 10;
+    num_of_digits--;
+  }
+  return (str_num);
 }
 
 
+
 char* makeEquationString(int x, int y, char operation) {
-    char *str = new char[20];
-    sprintf(str, "%d %c %d = ", x, operation, y); 
-    return str; 
+  char *str = new char[20];
+  sprintf(str, "%d %c %d = ", x, operation, y);
+  return str;
 }

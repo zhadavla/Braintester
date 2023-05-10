@@ -153,7 +153,7 @@ void displayExpresion() {
   EsploraTFT.stroke(100, 255, 0);
   const char *strEquation = makeEquationString(num1, num2, op);
   EsploraTFT.text(strEquation, 0, 50);
-  const char *idk = intToCStr(numOfCorrectAnswers);
+  const char *idk = ft_itoa(numOfCorrectAnswers);
   EsploraTFT.text(idk, 50, 100);
   delete[] (strEquation);
 }
@@ -163,32 +163,32 @@ void displayAnswers() {
   switch (mathSelectedOption) {
     case SEL1:
       EsploraTFT.stroke(255, 0, 0);
-      sOption1 = intToCStr(options[0]);
+      sOption1 = ft_itoa(options[0]);
       EsploraTFT.text((const char *) sOption1, 120, 30);
       EsploraTFT.stroke(0, 255, 0);
-      sOption2 = intToCStr(options[1]);
+      sOption2 = ft_itoa(options[1]);
       EsploraTFT.text((const char *) sOption2, 120, 50);
-      sCorrectOption = intToCStr(options[2]);
+      sCorrectOption = ft_itoa(options[2]);
       EsploraTFT.text((const char *) sCorrectOption, 120, 70);
       break;
     case SEL2:
       EsploraTFT.stroke(0, 255, 0);
-      sOption1 = intToCStr(options[0]);
+      sOption1 = ft_itoa(options[0]);
       EsploraTFT.text((const char *) sOption1, 120, 30);
       EsploraTFT.stroke(255, 0, 0);
-      sOption2 = intToCStr(options[1]);
+      sOption2 = ft_itoa(options[1]);
       EsploraTFT.text((const char *) sOption2, 120, 50);
       EsploraTFT.stroke(0, 255, 0);
-      sCorrectOption = intToCStr(options[2]);
+      sCorrectOption = ft_itoa(options[2]);
       EsploraTFT.text((const char *) sCorrectOption, 120, 70);
       break;
     case SEL3:
       EsploraTFT.stroke(0, 255, 0);
-      sOption1 = intToCStr(options[0]);
+      sOption1 = ft_itoa(options[0]);
       EsploraTFT.text((const char *) sOption1, 120, 30);
-      sOption2 = intToCStr(options[1]);
+      sOption2 = ft_itoa(options[1]);
       EsploraTFT.text((const char *) sOption2, 120, 50);
-      sCorrectOption = intToCStr(options[2]);
+      sCorrectOption = ft_itoa(options[2]);
       EsploraTFT.stroke(255, 0, 0);
       EsploraTFT.text((const char *) sCorrectOption, 120, 70);
       break;

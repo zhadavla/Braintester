@@ -13,6 +13,7 @@ int prevGameState = SELECTION;
 int prevState = -1;
 
 void loop() {  
+//  Serial.println(intToCStr(-88));/
   if (prevGameState == SELECTION){
      if (!Esplora.readButton(SWITCH_DOWN)){
         switchMenuDown();
