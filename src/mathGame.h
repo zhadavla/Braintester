@@ -6,19 +6,22 @@
 #include "mainHeader.h"
 #include "mainMenu.h"
 
-enum mathSelectionStates{
+enum mathSelectionStates {
   SEL1, SEL2, SEL3
 };
 
-enum mathGameState{
+enum mathGameState {
   SUM, PRODUCT, SUBSTRACTION, DIVISION, INCORRECT
 };
 
+void getDivision();
+void getProduct() ;
 void getProduct();
 void remapResults();
 void printResults() ;
 void displayExpresion();
 void displayAnswers();
+void userInput();
 void getRandomCoordinates();
 void updatemathSelectedOption();
 void displayMathMenu();
@@ -32,5 +35,6 @@ void getNextEquation();
 void getSum();
 void mathGameSwitch();
 void mathGameMain();
+void generateRandomEquation();
 
-#endif 
+#endif

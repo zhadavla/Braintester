@@ -9,16 +9,23 @@ void mathGameInit() {
   EsploraTFT.setTextSize(2);
 }
 
-int result1, result2, correctResult, a, b;
-int difficultyLevel = 1;
+
+#define NUM_OPTIONS 3
+#define MIN_NUM 1
+#define MAX_NUM_START 10
+#define MAX_NUM_INC 10
+#define MAX_NUM_MAX 400
+#define CORRECT_ANSWERS_THRESHOLD 3
+
+int max_num = MAX_NUM_START;
 int mathSelectedOption = SEL1;
-int mathPrevGameState = DIVISION;
-int currentMathGameState = SUM;
-char currentSign = '+';
-int coordinates[3];
-//int indexesOfRe/sults[3];
-int results[3];
-int indexes[3];
+int answer, num1, num2;
+char op;
+int options[3];
+int correct_answer_pos;
+int correct_answers;
+int counter = 0;
+int numOfCorrectAnswers = -1;
 
 void mathGameMain() {
 
@@ -32,11 +39,11 @@ void mathGameMain() {
   }
 
   if (!Esplora.readButton(SWITCH_RIGHT)) {
-    mathGameSwitch();
+    Serial.println("MAXXXXXXXXXXXXXXXX: " + String(max_num));
+    
+    userInput();
+    generateRandomEquation();
     displayMathMenu();
-    Serial.println(correctResult);
-    for (int i = 0; i < 3; ++i)
-      Serial.println(coordinates[i]);
     delay(100);
     while (!Esplora.readButton(SWITCH_RIGHT));
   }
@@ -45,42 +52,95 @@ void mathGameMain() {
 
     mathSwitchUp();
     displayAnswers();
-    switch (mathSelectedOption) {
-      case SEL1:
-        Serial.println("SEL1");
-        break;
-      case SEL2:
-        Serial.println("SEL2");
-        break;
-      case SEL3:
-        Serial.println("SEL3");
-        break;
-    }
 
     delay(100);
     while (!Esplora.readButton(SWITCH_UP));
   }
 
   if (!Esplora.readButton(SWITCH_DOWN)) {
+    
     mathSwitchDown();
     displayAnswers();
 
-    switch (mathSelectedOption) {
-      case SEL1:
-        Serial.println("SEL1");
-        break;
-      case SEL2:
-        Serial.println("SEL2");
-        break;
-      case SEL3:
-        Serial.println("SEL3");
-        break;
-    }
+
     delay(100);
     while (!Esplora.readButton(SWITCH_DOWN));
   }
 
 }
+
+void generateRandomEquation() {
+  num1 = rand() % max_num + MIN_NUM;
+  num2 = rand() % max_num + MIN_NUM;
+  op = "+-*"[rand() % 3];
+
+  if (op == '+') {
+    answer = num1 + num2;
+  }
+  else if (op == '-') {
+    answer = num1 - num2;
+  }
+  else if (op == '*') {
+    answer = num1 * num2;
+  }
+
+  correct_answer_pos = rand() % NUM_OPTIONS;
+  Serial.println("correct_answer_pos: " + String(correct_answer_pos));
+  for (int i = 0; i < NUM_OPTIONS; i++) {
+    if (i == correct_answer_pos) {
+      options[i] = answer;
+    }
+    else {
+      options[i] = rand() % (max_num * 2 - MIN_NUM + 1) + MIN_NUM;
+    }
+  }
+
+
+}
+
+int selectedButton() {
+  switch (mathSelectedOption) {
+    case SEL1:
+      Serial.println("SEL1");
+      return 0;
+      break;
+    case SEL2:
+      Serial.println("SEL2");
+      return 1;
+      break;
+    case SEL3:
+      Serial.println("SEL3");
+      return 2;
+      break;
+  }
+}
+
+
+void userInput() {
+  int user_answer = selectedButton();
+  
+  Serial.println("user_answer: " + String(user_answer));
+//  Serial.println("correct_answer_pos: " + String(correct_answer_pos));
+  
+  if (user_answer == correct_answer_pos) {
+    correct_answers++;
+    numOfCorrectAnswers++;
+    if (correct_answers == CORRECT_ANSWERS_THRESHOLD) {
+      correct_answers = 0;
+      max_num += MAX_NUM_INC;
+      if (max_num > MAX_NUM_MAX) {
+        max_num = MAX_NUM_MAX;
+      }
+    }
+  }
+  else {
+    numOfCorrectAnswers = 0;
+    correct_answers = 0;
+    max_num = MAX_NUM_START;
+  }
+}
+
+
 
 void displayMathMenu() {
   displayExpresion();
@@ -91,63 +151,52 @@ void displayExpresion() {
   mathGameInit();
 
   EsploraTFT.stroke(100, 255, 0);
-  const char *strEquation = makeEquationString(a, b, currentSign);
+  const char *strEquation = makeEquationString(num1, num2, op);
   EsploraTFT.text(strEquation, 0, 50);
+  const char *idk = intToCStr(numOfCorrectAnswers);
+  EsploraTFT.text(idk, 50, 100);
   delete[] (strEquation);
 }
-void printIndexes() {
-  Serial.println("Indexes: ");
-  for (int i = 0; i < 3; ++i) {
-    Serial.println(i);
-    Serial.println(indexes[i]);
-  }
-  Serial.println("====================================");
-}
-
 
 void displayAnswers() {
-  getRandomCoordinates();
-//  printResults();/
-  Serial.println("displayAnswers");
-
-  char *sResult1, *sResult2, *sCorrectResult;
+  char *sOption1, *sOption2, *sCorrectOption;
   switch (mathSelectedOption) {
     case SEL1:
       EsploraTFT.stroke(255, 0, 0);
-      sResult1 = intToCStr(result1);
-      EsploraTFT.text((const char *) sResult1, 120, 30);
+      sOption1 = intToCStr(options[0]);
+      EsploraTFT.text((const char *) sOption1, 120, 30);
       EsploraTFT.stroke(0, 255, 0);
-      sResult2 = intToCStr(result2);
-      EsploraTFT.text((const char *) sResult2, 120, 50);
-      sCorrectResult = intToCStr(correctResult);
-      EsploraTFT.text((const char *) sCorrectResult, 120, 70);
+      sOption2 = intToCStr(options[1]);
+      EsploraTFT.text((const char *) sOption2, 120, 50);
+      sCorrectOption = intToCStr(options[2]);
+      EsploraTFT.text((const char *) sCorrectOption, 120, 70);
       break;
     case SEL2:
       EsploraTFT.stroke(0, 255, 0);
-      sResult1 = intToCStr(result1);
-      EsploraTFT.text((const char *) sResult1, 120, 30);
+      sOption1 = intToCStr(options[0]);
+      EsploraTFT.text((const char *) sOption1, 120, 30);
       EsploraTFT.stroke(255, 0, 0);
-      sResult2 = intToCStr(result2);
-      EsploraTFT.text((const char *) sResult2, 120, 50);
+      sOption2 = intToCStr(options[1]);
+      EsploraTFT.text((const char *) sOption2, 120, 50);
       EsploraTFT.stroke(0, 255, 0);
-      sCorrectResult = intToCStr(correctResult);
-      EsploraTFT.text((const char *) sCorrectResult, 120, 70);
+      sCorrectOption = intToCStr(options[2]);
+      EsploraTFT.text((const char *) sCorrectOption, 120, 70);
       break;
     case SEL3:
       EsploraTFT.stroke(0, 255, 0);
-      sResult1 = intToCStr(result1);
-      EsploraTFT.text((const char *) sResult1, 120, 30);
-      sResult2 = intToCStr(result2);
-      EsploraTFT.text((const char *) sResult2, 120, 50);
-      sCorrectResult = intToCStr(correctResult);
+      sOption1 = intToCStr(options[0]);
+      EsploraTFT.text((const char *) sOption1, 120, 30);
+      sOption2 = intToCStr(options[1]);
+      EsploraTFT.text((const char *) sOption2, 120, 50);
+      sCorrectOption = intToCStr(options[2]);
       EsploraTFT.stroke(255, 0, 0);
-      EsploraTFT.text((const char *) sCorrectResult, 120, 70);
+      EsploraTFT.text((const char *) sCorrectOption, 120, 70);
       break;
   }
 
-  delete[] (sResult1);
-  delete[] (sResult2);
-  delete[] (sCorrectResult);
+  delete[] (sOption1);
+  delete[] (sOption2);
+  delete[] (sCorrectOption);
 }
 
 void mathSwitchDown() {
@@ -176,126 +225,4 @@ void mathSwitchUp() {
       mathSelectedOption = SEL3;
       break;
   }
-}
-
-bool isCorrectAnswer() {
-  Serial.println("isCorrectAnswer");
-  for (int i = 0; i < 3; i++) {
-    Serial.println("THERE" + correctResult);
-    if (correctResult == coordinates[i])
-      Serial.println(i + " " + correctResult);
-  }
-  
-  remapResults();
-  
-  return ((mathSelectedOption == SEL1 && correctResult == results[0])
-          || (mathSelectedOption == SEL2 && correctResult == results[1])
-          || (mathSelectedOption == SEL3 && correctResult == results[2]));
-}
-
-// + * - /
-void mathGameSwitch() {
-  Serial.println("mathGameSwitch");
-  switch (mathPrevGameState) {
-    case DIVISION:
-      if (isCorrectAnswer()) {
-        Serial.println("HURAAAAAAAAAAAA!!!!!!!!");
-        mathPrevGameState = SUM;
-      }
-
-      else {
-        mathSelectedOption = SEL1;//
-        Serial.println("SUKA");
-        mathPrevGameState = INCORRECT;
-      }
-
-      getSum();
-      currentSign = '+';
-      break;
-    case SUM:
-      if (isCorrectAnswer()) {
-        Serial.println("HURAAAAAAAAAAAA!!!!!!!!");
-        mathPrevGameState = PRODUCT;
-      }
-
-      else {
-        Serial.println("SUKA");
-        mathSelectedOption = SEL1;//
-        mathPrevGameState = INCORRECT;
-      }
-
-      getProduct();
-      currentSign = '*';
-      break;
-    case INCORRECT:
-      mathPrevGameState = DIVISION;
-      break;
-    default:
-
-      break;
-  }
-}
-
-void remapResults() {
-    int remappedArr[3];
-
-    // Copy elements to their new positions in the remapped array
-    for (int i = 0; i < 3; i++)
-        remappedArr[indexes[i]] = results[i];
-
-    // Copy the remapped array back to the original array
-    for (int i = 0; i < 3; i++)
-        results[i] = remappedArr[i];
-}
-
-
-void getRandomCoordinates() {
-  int possibleCoordinates[] = {30, 50, 70};
-  int randomIndex = rand() % 3;
-
-  indexes[0] = randomIndex;
-  indexes[1] = (randomIndex + 1) % 3;
-  indexes[2] = (randomIndex + 2) % 3;
-
-  coordinates[0] = possibleCoordinates[indexes[0]];
-  coordinates[1] = possibleCoordinates[indexes[1]];
-  coordinates[2] = possibleCoordinates[indexes[2]];
-}
-
-void printResults() {
-  Serial.println("RESULTS: ");
-  for (int i = 0; i < 3; ++i) {
-    Serial.println(i);
-    Serial.println(results[i]);
-  }
-  Serial.println("====================================");
-}
-
-void getSum() {
-  a = rand() % (difficultyLevel * 10 + 1);
-  b = rand() % (difficultyLevel * 10 + 1);
-
-  int sum = a + b;
-
-  // Generate unique values for result1, result2, and correctResult
-  do {
-    result1 = rand() % (sum + 1); // generate random number between 0 and sum
-    result2 = rand() % (sum + 1); // generate random number between 0 and sum
-    correctResult = a + b;       // calculate the correct result
-  } while (result1 == result2 || result1 == correctResult || result2 == correctResult);
-  
-  results[0] = result1;
-  results[1] = result2;
-  results[2] = correctResult;  
-}
-
-
-void getProduct() {
-  a = rand() % (difficultyLevel * 10 + 1);
-  b = rand() % (difficultyLevel * 10 + 1);
-
-  result1 = rand() % 5 * (a * b);
-  result2 = rand() % 4 * (a * b);
-
-  correctResult = a * b;
 }
