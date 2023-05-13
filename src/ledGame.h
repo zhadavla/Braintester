@@ -5,18 +5,26 @@
 #include "mainMenu.h"
 #include "helperStrFunctions.h"
 
-enum ledSelectionStates {
+#define THRESHOLD 50
+
+enum ledUserInput {
   LED_SEL1, LED_SEL2, LED_SEL3
+};
+
+enum JoystickPosition {
+  UP, DOWN, LEFT, RIGHT
 };
 
 // Define enum for color options
 enum ColorOption {
   GREEN,
-  YELLOW,
   RED,
-  BLUE
+  BLUE, 
+  YELLOW
 };
 
+
+int getJoystickPosition();
 void ledGameInit();
 void ledGameStart();
 void ledGameMain() ;
