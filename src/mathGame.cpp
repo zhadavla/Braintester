@@ -1,5 +1,4 @@
 #include "mathGame.h"
-int MATH_SCORE;
 
 void mathGameInit() {
   EsploraTFT.background(0, 0, 0);
@@ -26,7 +25,7 @@ int correct_answer_pos;
 int correct_answers;
 int counter = 0;
 int numOfCorrectAnswers = -1;
-
+int MATH_MAX_SCORE = 0;
 void mathGameMain() {
 
 
@@ -94,10 +93,17 @@ void generateRandomEquation() {
     if (i == correct_answer_pos) {
       options[i] = answer;
     }
+    
     else {
-      options[i] = rand() % (max_option - min_option + 1) + min_option;
-      if (answer < 0)
-        options[i] *= -1;
+      int option = 0;
+      do {
+        option = rand() % (max_option - min_option + 1) + min_option;
+        options[i] = rand() % (max_option - min_option + 1) + min_option;
+        if (answer < 0)
+          options[i] *= -1;
+//          Serial.println(option);
+      } while (options[0] == option || options[1] == option|| options[2] == option);
+      options[i]= option;
     }
   }
 }
@@ -127,6 +133,8 @@ void mathUserInput() {
   if (user_answer == correct_answer_pos) {
     correct_answers++;
     numOfCorrectAnswers++;
+    if (numOfCorrectAnswers > MATH_MAX_SCORE)
+      MATH_MAX_SCORE = numOfCorrectAnswers;
     if (correct_answers == CORRECT_ANSWERS_THRESHOLD) {
       correct_answers = 0;
       max_num += MAX_NUM_INC;
@@ -134,8 +142,7 @@ void mathUserInput() {
         max_num = MAX_NUM_MAX;
       }
     }
-  }
-  else {
+  } else {
     numOfCorrectAnswers = 0;
     correct_answers = 0;
     max_num = MAX_NUM_START;
