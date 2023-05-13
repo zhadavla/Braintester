@@ -3,7 +3,8 @@
 // Define global variables
 int ledSelectedOption = LED_SEL1;
 int LEN_OF_SEQUENCE = 5;
-int ledSequence[5];
+#define MAX_LEN_OF_SEQUENCE 10
+int ledSequence[MAX_LEN_OF_SEQUENCE];
 
 void ledGameInit() {
   EsploraTFT.background(0, 0, 0);
@@ -22,7 +23,7 @@ void ledGameStart() {
 }
 
 void ledGameMain() {
- 
+
   if (!Esplora.readButton(SWITCH_LEFT)) {
     menuState = MATH_SEL;
     prevGameState = SELECTION;
@@ -69,17 +70,39 @@ int getJoystickPosition() {
   }
 }
 
-
-
 void ledUserInput() {
- 
-  EsploraTFT.background(0, 0, 0);
-  EsploraTFT.stroke(255, 255, 255);
-  EsploraTFT.setTextSize(1);
-  EsploraTFT.text("Use joystick to enter LED sequence", 0, 0);
-  EsploraTFT.text("Up: Red, Down: Green, Left: Blue", 0, 20);
 
- int colorGetted = getJoystickPosition();
+  EsploraTFT.background(0, 0, 0);
+  EsploraTFT.stroke(0, 255, 255);
+  EsploraTFT.setTextSize(1);
+  EsploraTFT.text("Use joystick", 10, 5);
+  EsploraTFT.text("to enter LED sequence", 10, 15);
+  EsploraTFT.text("Up: Red, Down: Green", 10, 25);
+  EsploraTFT.text("Left: Blue, Right: Yellow", 10, 35);
+
+  // input one color and check if it's right, then go to next color
+  for (int i = 0; i < LEN_OF_SEQUENCE; i++) {
+    int colorGetted = getJoystickPosition();
+    EsploraTFT.stroke(0, 0, 255);
+    EsploraTFT.text("Your input: ", 5, 55);
+    switch (colorGetted) {
+      case RED:
+        EsploraTFT.text("RED", 5, 75 + i * 10);
+        break;
+      case GREEN:
+        EsploraTFT.text("GREEN", 5 , 75 + i * 10);
+        break;
+      case BLUE:
+        EsploraTFT.text("BLUE", 5 , 75 + i * 10);
+        break;
+      case YELLOW:
+        EsploraTFT.text("YELLOW", 5 , 75 + i * 10);
+        break;
+    }
+
+    delay(333);
+  }
+
 }
 
 void flashLedSequence() {
@@ -87,12 +110,13 @@ void flashLedSequence() {
   int green[3] = {0, 255, 0};
   int red[3] = {255, 0, 0};
   int blue[3] = {0, 0, 255};
-  int* colors[4] = {green, red, blue};
+  int yellow[3] = {255, 255, 0};
+  int* colors[4] = {green, red, blue, yellow};
 
   // Flash random LED sequence LEN_OF_SEQUENCE times
   for (int i = 0; i < LEN_OF_SEQUENCE; i++) {
     // Generate random color option
-    ColorOption colorOption = static_cast<ColorOption>(random(3));
+    ColorOption colorOption = static_cast<ColorOption>(random(4));
 
     // Set RGB LED to random color
     Esplora.writeRGB(colors[colorOption][0], colors[colorOption][1], colors[colorOption][2]);
