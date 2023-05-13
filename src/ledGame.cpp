@@ -1,10 +1,11 @@
 #include "ledGame.h"
 
 // Define global variables
+int LED_MAX_SCORE = 0;
 int ledSelectedOption = LED_SEL1;
 int LEN_OF_SEQUENCE = 2;
-int MAX_LEN_OF_SEQUENCE = 4;
-ColorOption ledSequence[10];
+int MAX_LEN_OF_SEQUENCE = 12;
+ColorOption ledSequence[12];
 bool isSequenceCorrect;
 
 void ledGameInit() {
@@ -34,9 +35,7 @@ void ledGameMain() {
   }
 
   if (!Esplora.readButton(SWITCH_RIGHT)) {
-    flashLedSequence() ;
-    //    ledUserInput();
-    //    checkSequence();
+    flashLedSequence();
     delay(100);
     while (!Esplora.readButton(SWITCH_RIGHT));
   }
@@ -52,12 +51,10 @@ ColorOption getJoystickPosition() {
     if (y > 500 && -THRESHOLD < x && x < THRESHOLD) {
       Serial.println("Joystick position: DOWN");
       return RED;
-    }
-    else if (y < -500 && -THRESHOLD < x && x < THRESHOLD) {
+    } else if (y < -500 && -THRESHOLD < x && x < THRESHOLD) {
       Serial.println("Joystick position: UP");
       return BLUE;
-    }
-    else if (x < -500 && -THRESHOLD < y && y < THRESHOLD) {
+    } else if (x < -500 && -THRESHOLD < y && y < THRESHOLD) {
       Serial.println("Joystick position: RIGHT");
       return GREEN;
     }
@@ -77,7 +74,6 @@ ColorOption getJoystickPosition() {
 }
 
 void ledUserInput() {
-
   EsploraTFT.background(0, 0, 0);
   EsploraTFT.stroke(0, 0, 255);
   EsploraTFT.setTextSize(2);
@@ -92,7 +88,6 @@ void ledUserInput() {
   EsploraTFT.stroke(0, 5, 255);
   EsploraTFT.text("*", 15, 45);
 
-  int counter = 0;
   // input one color and check if it's right, then go to next color
   isSequenceCorrect = true;
   for (int i = 0; i < LEN_OF_SEQUENCE; i++) {
@@ -103,9 +98,6 @@ void ledUserInput() {
     EsploraTFT.stroke(255, 255, 255);
     EsploraTFT.text("Your input: ", 60, 55);
 
-    counter++;
-    if (counter < 0)
-      counter = 0;
     switch (colorGetted) {
       case RED:
         EsploraTFT.stroke(0, 0, 255);
@@ -130,7 +122,7 @@ void ledUserInput() {
       LEN_OF_SEQUENCE = 2;
       EsploraTFT.stroke(0, 0, 255);
       EsploraTFT.text("INCORRECT!", 5, 100);
-      EsploraTFT.text("RIGHT to retry", 5, 110);
+      EsploraTFT.text("Press RIGHT to retry", 5, 110);
       break;
     }
     delay(333);
@@ -138,10 +130,13 @@ void ledUserInput() {
 
   // if user correctly repeats the sequence increase level
   if (isSequenceCorrect) {
+    if (LEN_OF_SEQUENCE > LED_MAX_SCORE)
+      LED_MAX_SCORE = LEN_OF_SEQUENCE;
     LEN_OF_SEQUENCE++;
+    
     EsploraTFT.stroke(0, 123, 0);
     EsploraTFT.text("CORRECT!", 5, 100);
-    EsploraTFT.text("RIGHT to continue", 5, 110);
+    EsploraTFT.text("Press RIGHT to continue", 5, 110);
     delay(100);
   }
   if (LEN_OF_SEQUENCE == MAX_LEN_OF_SEQUENCE) {

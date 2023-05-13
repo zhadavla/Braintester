@@ -72,8 +72,11 @@ void generateRandomEquation() {
 
   op = "+-*"[rand() % 3];
   if (op == '*') {
-    num1 = rand() % (max_num - MAX_NUM_INC) + MIN_NUM;
-    num2 = rand() % (max_num - MAX_NUM_INC) + MIN_NUM;
+    if (max_num > MAX_NUM_INC) {
+      num1 = rand() % (max_num - MAX_NUM_INC) + MIN_NUM;
+      num2 = rand() % (max_num - MAX_NUM_INC) + MIN_NUM;
+    }
+
   } else {
     num1 = rand() % max_num + MIN_NUM;
     num2 = rand() % max_num + MIN_NUM;
@@ -105,7 +108,7 @@ void generateRandomEquation() {
         options[i] = rand() % (max_option - min_option + 1) + min_option;
         if (answer < 0)
           options[i] *= -1;
-                  Serial.println(option);
+        Serial.println(option);
       } while ((options[0] == option || options[1] == option || options[2] == option) || option == 0);
       options[i] = option;
     }
@@ -116,15 +119,15 @@ int selectedButton() {
   switch (mathSelectedOption) {
     case MATH_SEL1:
       Serial.println("MATH_SEL1");
-      return 0;
+      return MATH_SEL1;
       break;
     case MATH_SEL2:
       Serial.println("MATH_SEL2");
-      return 1;
+      return MATH_SEL2;
       break;
     case MATH_SEL3:
       Serial.println("MATH_SEL3");
-      return 2;
+      return MATH_SEL3;
       break;
   }
 }
@@ -173,6 +176,8 @@ void displayExpresion() {
 
 void displayAnswers() {
   char *sOption1, *sOption2, *sCorrectOption;
+  if (options[0] == 0 || options[1] == 0 || options[2] == 0)
+    return;
   switch (mathSelectedOption) {
     case MATH_SEL1:
       EsploraTFT.stroke(255, 0, 0);
