@@ -12,7 +12,7 @@ void mathGameInit() {
 
 #define NUM_OPTIONS 3
 #define MIN_NUM 1
-#define MAX_NUM_START 10
+#define MAX_NUM_START 100
 #define MAX_NUM_INC 10
 #define MAX_NUM_MAX 400
 #define CORRECT_ANSWERS_THRESHOLD 3
@@ -40,7 +40,7 @@ void mathGameMain() {
 
   if (!Esplora.readButton(SWITCH_RIGHT)) {
     Serial.println("MAXXXXXXXXXXXXXXXX: " + String(max_num));
-    
+
     userInput();
     generateRandomEquation();
     displayMathMenu();
@@ -58,7 +58,7 @@ void mathGameMain() {
   }
 
   if (!Esplora.readButton(SWITCH_DOWN)) {
-    
+
     mathSwitchDown();
     displayAnswers();
 
@@ -85,7 +85,7 @@ void generateRandomEquation() {
   }
 
   int num_digits = floor(log10(abs(answer))) + 1;
-  int min_option = pow(10, num_digits-1);
+  int min_option = pow(10, num_digits - 1);
   int max_option = pow(10, num_digits) - 1;
 
   correct_answer_pos = rand() % NUM_OPTIONS;
@@ -122,7 +122,7 @@ int selectedButton() {
 
 void userInput() {
   int user_answer = selectedButton();
-  
+
   Serial.println("user_answer: " + String(user_answer));
   if (user_answer == correct_answer_pos) {
     correct_answers++;
@@ -166,33 +166,33 @@ void displayAnswers() {
     case SEL1:
       EsploraTFT.stroke(255, 0, 0);
       sOption1 = ft_itoa(options[0]);
-      EsploraTFT.text((const char *) sOption1, 120, 30);
+      EsploraTFT.text((const char *) sOption1, 110, 30);
       EsploraTFT.stroke(0, 255, 0);
       sOption2 = ft_itoa(options[1]);
-      EsploraTFT.text((const char *) sOption2, 120, 50);
+      EsploraTFT.text((const char *) sOption2, 110, 50);
       sCorrectOption = ft_itoa(options[2]);
-      EsploraTFT.text((const char *) sCorrectOption, 120, 70);
+      EsploraTFT.text((const char *) sCorrectOption, 110, 70);
       break;
     case SEL2:
       EsploraTFT.stroke(0, 255, 0);
       sOption1 = ft_itoa(options[0]);
-      EsploraTFT.text((const char *) sOption1, 120, 30);
+      EsploraTFT.text((const char *) sOption1, 110, 30);
       EsploraTFT.stroke(255, 0, 0);
       sOption2 = ft_itoa(options[1]);
-      EsploraTFT.text((const char *) sOption2, 120, 50);
+      EsploraTFT.text((const char *) sOption2, 110, 50);
       EsploraTFT.stroke(0, 255, 0);
       sCorrectOption = ft_itoa(options[2]);
-      EsploraTFT.text((const char *) sCorrectOption, 120, 70);
+      EsploraTFT.text((const char *) sCorrectOption, 110, 70);
       break;
     case SEL3:
       EsploraTFT.stroke(0, 255, 0);
       sOption1 = ft_itoa(options[0]);
-      EsploraTFT.text((const char *) sOption1, 120, 30);
+      EsploraTFT.text((const char *) sOption1, 110, 30);
       sOption2 = ft_itoa(options[1]);
-      EsploraTFT.text((const char *) sOption2, 120, 50);
+      EsploraTFT.text((const char *) sOption2, 110, 50);
       sCorrectOption = ft_itoa(options[2]);
       EsploraTFT.stroke(255, 0, 0);
-      EsploraTFT.text((const char *) sCorrectOption, 120, 70);
+      EsploraTFT.text((const char *) sCorrectOption, 110, 70);
       break;
   }
 
