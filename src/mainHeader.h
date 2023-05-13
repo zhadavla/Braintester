@@ -5,7 +5,7 @@ enum MENU_STATES{
 };
 
 enum GAME_STATES{
-  SELECTION, MATH_GAME
+  SELECTION, MATH_GAME, LED_GAME
 };
 
 extern int menuState;
