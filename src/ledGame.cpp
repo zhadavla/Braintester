@@ -1,6 +1,9 @@
 #include "ledGame.h"
 
+// Define global variables
 int ledSelectedOption = LED_SEL1;
+int LEN_OF_SEQUENCE = 5;
+int ledSequence[5];
 
 void ledGameInit() {
   EsploraTFT.background(0, 0, 0);
@@ -59,10 +62,8 @@ void ledGameMain() {
 }
 
 void ledUserInput() {
-  
+
 }
-// Define global variables
-int LEN_OF_SEQUENCE = 5;
 
 void flashLedSequence() {
   // Define possible colors
@@ -74,11 +75,14 @@ void flashLedSequence() {
 
   // Flash random LED sequence LEN_OF_SEQUENCE times
   for (int i = 0; i < LEN_OF_SEQUENCE; i++) {
-    // Generate random color index (0-3)
-    int colorIndex = random(4);
+    // Generate random color option
+    ColorOption colorOption = static_cast<ColorOption>(random(4));
 
     // Set RGB LED to random color
-    Esplora.writeRGB(colors[colorIndex][0], colors[colorIndex][1], colors[colorIndex][2]);
+    Esplora.writeRGB(colors[colorOption][0], colors[colorOption][1], colors[colorOption][2]);
+
+    // Remember flashed color option in sequence
+    ledSequence[i] = static_cast<int>(colorOption);
 
     // Delay for 500ms
     delay(500);
@@ -90,7 +94,6 @@ void flashLedSequence() {
     delay(500);
   }
 }
-
 
 void ledSwitchDown() {
   switch (ledSelectedOption) {
