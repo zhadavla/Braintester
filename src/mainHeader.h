@@ -1,5 +1,4 @@
-#ifndef MAIN_HEADER_H
-#define MAIN_HEADER_H
+#pragma once 
 
 enum MENU_STATES{
   MATH_SEL, LED_SEL, SCORE_SEL
@@ -17,5 +16,3 @@ extern int prevState;
 #include <TFT.h>
 #include <SPI.h>
 #include <time.h>
-
-#endif 

@@ -1,5 +1,4 @@
-#ifndef MAIN_MENU_H
-#define MAIN_MENU_H
+#pragma once 
 
 #include <Arduino.h>
 #include "mainHeader.h"
@@ -10,5 +9,3 @@ void switchMenuUp();
 void switchMenuDown();
 void mainMenuShow();
 void highlightMenuOption(int x, int y, const char *txt);
-
-#endif

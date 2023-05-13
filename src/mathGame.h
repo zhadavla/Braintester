@@ -1,6 +1,4 @@
-
-#ifndef MATH_GAME_H
-#define MATH_GAME_H
+#pragma once 
 
 #include <Arduino.h>
 #include "mainHeader.h"
@@ -37,5 +35,3 @@ void getSum();
 void mathGameSwitch();
 void mathGameMain();
 void generateRandomEquation();
-
-#endif
