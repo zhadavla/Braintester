@@ -84,6 +84,10 @@ void generateRandomEquation() {
     answer = num1 * num2;
   }
 
+  int num_digits = floor(log10(abs(answer))) + 1;
+  int min_option = pow(10, num_digits-1);
+  int max_option = pow(10, num_digits) - 1;
+
   correct_answer_pos = rand() % NUM_OPTIONS;
   Serial.println("correct_answer_pos: " + String(correct_answer_pos));
   for (int i = 0; i < NUM_OPTIONS; i++) {
@@ -91,14 +95,11 @@ void generateRandomEquation() {
       options[i] = answer;
     }
     else {
-      options[i] = rand() % (max_num * 2 - MIN_NUM + 1) + MIN_NUM;
+      options[i] = rand() % (max_option - min_option + 1) + min_option;
       if (answer < 0)
         options[i] *= -1;
-     
     }
   }
-
-
 }
 
 int selectedButton() {
