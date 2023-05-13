@@ -33,6 +33,7 @@ void loop() {
       if (menuState == MATH_SEL){
         prevGameState = MATH_GAME;
         mathGameInit();
+        mathGameStart() ;
       }
       else
         prevGameState = SELECTION;

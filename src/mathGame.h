@@ -1,9 +1,16 @@
-#pragma once 
+#pragma once
 
 #include <Arduino.h>
 #include "mainHeader.h"
 #include "mainMenu.h"
 #include "helperStrFunctions.h"
+
+#define NUM_OPTIONS 3
+#define MIN_NUM 1
+#define MAX_NUM_START 10
+#define MAX_NUM_INC 5
+#define MAX_NUM_MAX 100
+#define CORRECT_ANSWERS_THRESHOLD 3
 
 enum mathSelectionStates {
   SEL1, SEL2, SEL3
@@ -13,6 +20,7 @@ enum mathGameState {
   SUM, PRODUCT, SUBSTRACTION, DIVISION, INCORRECT
 };
 
+void mathGameStart() ;
 void getDivision();
 void getProduct() ;
 void getProduct();

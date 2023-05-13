@@ -9,13 +9,13 @@ void mathGameInit() {
   EsploraTFT.setTextSize(2);
 }
 
-
-#define NUM_OPTIONS 3
-#define MIN_NUM 1
-#define MAX_NUM_START 100
-#define MAX_NUM_INC 10
-#define MAX_NUM_MAX 400
-#define CORRECT_ANSWERS_THRESHOLD 3
+void mathGameStart() {
+  EsploraTFT.stroke(255, 0, 0);
+  EsploraTFT.text("Press", 10, 40);
+  EsploraTFT.text("right switch", 10, 60);
+  EsploraTFT.text("to start!", 10, 80);
+  EsploraTFT.stroke(255, 255, 0);
+}
 
 int max_num = MAX_NUM_START;
 int mathSelectedOption = SEL1;
