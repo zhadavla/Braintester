@@ -18,7 +18,7 @@ void mathGameStart() {
 }
 
 int max_num = MAX_NUM_START;
-int mathSelectedOption = SEL1;
+int mathSelectedOption = MATH_SEL1;
 int answer, num1, num2;
 char op;
 int options[3];
@@ -41,7 +41,7 @@ void mathGameMain() {
   if (!Esplora.readButton(SWITCH_RIGHT)) {
     Serial.println("MAXXXXXXXXXXXXXXXX: " + String(max_num));
 
-    userInput();
+    mathUserInput();
     generateRandomEquation();
     displayMathMenu();
     delay(100);
@@ -104,23 +104,23 @@ void generateRandomEquation() {
 
 int selectedButton() {
   switch (mathSelectedOption) {
-    case SEL1:
-      Serial.println("SEL1");
+    case MATH_SEL1:
+      Serial.println("MATH_SEL1");
       return 0;
       break;
-    case SEL2:
-      Serial.println("SEL2");
+    case MATH_SEL2:
+      Serial.println("MATH_SEL2");
       return 1;
       break;
-    case SEL3:
-      Serial.println("SEL3");
+    case MATH_SEL3:
+      Serial.println("MATH_SEL3");
       return 2;
       break;
   }
 }
 
 
-void userInput() {
+void mathUserInput() {
   int user_answer = selectedButton();
 
   Serial.println("user_answer: " + String(user_answer));
@@ -163,7 +163,7 @@ void displayExpresion() {
 void displayAnswers() {
   char *sOption1, *sOption2, *sCorrectOption;
   switch (mathSelectedOption) {
-    case SEL1:
+    case MATH_SEL1:
       EsploraTFT.stroke(255, 0, 0);
       sOption1 = ft_itoa(options[0]);
       EsploraTFT.text((const char *) sOption1, 110, 30);
@@ -173,7 +173,7 @@ void displayAnswers() {
       sCorrectOption = ft_itoa(options[2]);
       EsploraTFT.text((const char *) sCorrectOption, 110, 70);
       break;
-    case SEL2:
+    case MATH_SEL2:
       EsploraTFT.stroke(0, 255, 0);
       sOption1 = ft_itoa(options[0]);
       EsploraTFT.text((const char *) sOption1, 110, 30);
@@ -184,7 +184,7 @@ void displayAnswers() {
       sCorrectOption = ft_itoa(options[2]);
       EsploraTFT.text((const char *) sCorrectOption, 110, 70);
       break;
-    case SEL3:
+    case MATH_SEL3:
       EsploraTFT.stroke(0, 255, 0);
       sOption1 = ft_itoa(options[0]);
       EsploraTFT.text((const char *) sOption1, 110, 30);
@@ -203,28 +203,28 @@ void displayAnswers() {
 
 void mathSwitchDown() {
   switch (mathSelectedOption) {
-    case SEL3:
-      mathSelectedOption = SEL1;
+    case MATH_SEL3:
+      mathSelectedOption = MATH_SEL1;
       break;
-    case SEL1:
-      mathSelectedOption = SEL2;
+    case MATH_SEL1:
+      mathSelectedOption = MATH_SEL2;
       break;
-    case SEL2:
-      mathSelectedOption = SEL3;
+    case MATH_SEL2:
+      mathSelectedOption = MATH_SEL3;
       break;
   }
 }
 
 void mathSwitchUp() {
   switch (mathSelectedOption) {
-    case SEL3:
-      mathSelectedOption = SEL2;
+    case MATH_SEL3:
+      mathSelectedOption = MATH_SEL2;
       break;
-    case SEL2:
-      mathSelectedOption = SEL1;
+    case MATH_SEL2:
+      mathSelectedOption = MATH_SEL1;
       break;
-    case SEL1:
-      mathSelectedOption = SEL3;
+    case MATH_SEL1:
+      mathSelectedOption = MATH_SEL3;
       break;
   }
 }

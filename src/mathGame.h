@@ -13,7 +13,7 @@
 #define CORRECT_ANSWERS_THRESHOLD 3
 
 enum mathSelectionStates {
-  SEL1, SEL2, SEL3
+  MATH_SEL1, MATH_SEL2, MATH_SEL3
 };
 
 enum mathGameState {
@@ -28,7 +28,7 @@ void remapResults();
 void printResults() ;
 void displayExpresion();
 void displayAnswers();
-void userInput();
+void mathUserInput();
 void getRandomCoordinates();
 void updatemathSelectedOption();
 void displayMathMenu();
