@@ -2,7 +2,7 @@
 
 // Define global variables
 int ledSelectedOption = LED_SEL1;
-int LEN_OF_SEQUENCE = 5;
+int LEN_OF_SEQUENCE = 3;
 #define MAX_LEN_OF_SEQUENCE 10
 int ledSequence[MAX_LEN_OF_SEQUENCE];
 
@@ -77,14 +77,16 @@ void ledUserInput() {
   EsploraTFT.setTextSize(1);
   EsploraTFT.text("Use joystick", 10, 5);
   EsploraTFT.text("to enter LED sequence", 10, 15);
-  EsploraTFT.text("Up: Red, Down: Green", 10, 25);
+  EsploraTFT.text("Up: Green, Down: Red", 10, 25);
   EsploraTFT.text("Left: Blue, Right: Yellow", 10, 35);
 
+  bool isCorrect = true;
   // input one color and check if it's right, then go to next color
   for (int i = 0; i < LEN_OF_SEQUENCE; i++) {
     int colorGetted = getJoystickPosition();
     EsploraTFT.stroke(0, 0, 255);
     EsploraTFT.text("Your input: ", 5, 55);
+
     switch (colorGetted) {
       case RED:
         EsploraTFT.text("RED", 5, 75 + i * 10);
@@ -100,9 +102,18 @@ void ledUserInput() {
         break;
     }
 
+    if (colorGetted != ledSequence[i]) {
+      isCorrect = false;
+      EsploraTFT.text("WHICH IS INCORRECT!", 5, 75 + i * 10 + 10);
+      break;
+    }
+
     delay(333);
   }
-
+  if (isCorrect) {
+    EsploraTFT.setTextSize(7);
+    EsploraTFT.text("NICE!", 10, 10);
+  }
 }
 
 void flashLedSequence() {
