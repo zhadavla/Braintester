@@ -69,10 +69,15 @@ void mathGameMain() {
 }
 
 void generateRandomEquation() {
-  num1 = rand() % max_num + MIN_NUM;
-  num2 = rand() % max_num + MIN_NUM;
-  op = "+-*"[rand() % 3];
 
+  op = "+-*"[rand() % 3];
+  if (op == '*') {
+    num1 = rand() % (max_num - MAX_NUM_INC) + MIN_NUM;
+    num2 = rand() % (max_num - MAX_NUM_INC) + MIN_NUM;
+  } else {
+    num1 = rand() % max_num + MIN_NUM;
+    num2 = rand() % max_num + MIN_NUM;
+  }
   if (op == '+') {
     answer = num1 + num2;
   }
@@ -93,7 +98,6 @@ void generateRandomEquation() {
     if (i == correct_answer_pos) {
       options[i] = answer;
     }
-    
     else {
       int option = 0;
       do {
@@ -101,9 +105,9 @@ void generateRandomEquation() {
         options[i] = rand() % (max_option - min_option + 1) + min_option;
         if (answer < 0)
           options[i] *= -1;
-//          Serial.println(option);
-      } while (options[0] == option || options[1] == option|| options[2] == option);
-      options[i]= option;
+                  Serial.println(option);
+      } while ((options[0] == option || options[1] == option || options[2] == option) || option == 0);
+      options[i] = option;
     }
   }
 }
