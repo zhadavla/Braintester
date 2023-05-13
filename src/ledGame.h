@@ -20,11 +20,12 @@ enum ColorOption {
   GREEN,
   RED,
   BLUE, 
-  YELLOW
+  YELLOW,
+  NONE
 };
 
 
-int getJoystickPosition();
+ColorOption getJoystickPosition();
 void ledGameInit();
 void ledGameStart();
 void ledGameMain() ;

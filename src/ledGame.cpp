@@ -2,9 +2,9 @@
 
 // Define global variables
 int ledSelectedOption = LED_SEL1;
-int LEN_OF_SEQUENCE = 3;
-int MAX_LEN_OF_SEQUENCE = 10;
-int ledSequence[10];
+int LEN_OF_SEQUENCE = 2;
+int MAX_LEN_OF_SEQUENCE = 4;
+ColorOption ledSequence[10];
 bool isSequenceCorrect;
 
 void ledGameInit() {
@@ -42,7 +42,7 @@ void ledGameMain() {
   }
 }
 
-int getJoystickPosition() {
+ColorOption getJoystickPosition() {
   int x, y;
 
   while (true) {
@@ -51,26 +51,26 @@ int getJoystickPosition() {
 
     if (y > 500 && -THRESHOLD < x && x < THRESHOLD) {
       Serial.println("Joystick position: DOWN");
-      return DOWN;
+      return RED;
     }
     else if (y < -500 && -THRESHOLD < x && x < THRESHOLD) {
       Serial.println("Joystick position: UP");
-      return UP;
+      return BLUE;
     }
     else if (x < -500 && -THRESHOLD < y && y < THRESHOLD) {
       Serial.println("Joystick position: RIGHT");
-      return RIGHT;
+      return GREEN;
     }
     else if (x > 500 && -THRESHOLD < y && y < THRESHOLD) {
       Serial.println("Joystick position: LEFT");
-      return LEFT;
+      return YELLOW;
     }
 
     if (!Esplora.readButton(SWITCH_LEFT)) {
       menuState = MATH_SEL;
       prevGameState = SELECTION;
       menuInit();
-      return -1;
+      return NONE;
     }
 
   }
@@ -79,66 +79,81 @@ int getJoystickPosition() {
 void ledUserInput() {
 
   EsploraTFT.background(0, 0, 0);
-  EsploraTFT.stroke(0, 255, 255);
+  EsploraTFT.stroke(0, 0, 255);
   EsploraTFT.setTextSize(2);
-  EsploraTFT.text("Repeat the Sequence!", 10, 5);
-  EsploraTFT.text("Use joystick!", 20, 15);
+  EsploraTFT.text("Use joystick!", 0, 5);
+  EsploraTFT.stroke(255, 0, 0);
+  EsploraTFT.text("*", 15, 25);
+  EsploraTFT.stroke(0, 255, 255);
+  EsploraTFT.text("*", 5, 35);
+
   EsploraTFT.stroke(0, 255, 0);
-  EsploraTFT.text("UP", 50, 50);
-//  EsploraTFT.text("Up: Green, Down: Red", 10, 25);
-//  EsploraTFT.text("Left: Blue, Right: Yellow", 10, 35);
+  EsploraTFT.text("*", 25, 35);
+  EsploraTFT.stroke(0, 5, 255);
+  EsploraTFT.text("*", 15, 45);
 
-
-
+  int counter = 0;
   // input one color and check if it's right, then go to next color
   isSequenceCorrect = true;
   for (int i = 0; i < LEN_OF_SEQUENCE; i++) {
-    int colorGetted = getJoystickPosition();
-    if (colorGetted == -1)
+    ColorOption colorGetted = getJoystickPosition();
+    if (colorGetted == NONE)
       return;
-    EsploraTFT.stroke(0, 0, 255);
-    EsploraTFT.text("Your input: ", 5, 55);
+    EsploraTFT.setTextSize(1);
+    EsploraTFT.stroke(255, 255, 255);
+    EsploraTFT.text("Your input: ", 60, 55);
 
+    counter++;
+    if (counter < 0)
+      counter = 0;
     switch (colorGetted) {
       case RED:
         EsploraTFT.stroke(0, 0, 255);
-        EsploraTFT.text("RED", 5, 75 + i * 10);
+        EsploraTFT.text("*", 65 + i * 10, 65);
         break;
       case GREEN:
         EsploraTFT.stroke(0, 255, 0);
-        EsploraTFT.text("GREEN", 5 , 75 + i * 10);
+        EsploraTFT.text("*", 65 + i * 10, 65);
         break;
       case BLUE:
         EsploraTFT.stroke(255, 0, 0);
-        EsploraTFT.text("BLUE", 5 , 75 + i * 10);
+        EsploraTFT.text("*", 65 + i * 10, 65 );
         break;
       case YELLOW:
         EsploraTFT.stroke(0, 255, 255);
-        EsploraTFT.text("YELLOW", 5 , 75 + i * 10);
+        EsploraTFT.text("*", 65 + i * 10, 65 );
         break;
-
     }
 
     if (colorGetted != ledSequence[i]) {
       isSequenceCorrect = false;
-      EsploraTFT.text("WHICH IS INCORRECT!", 5, 75 + i * 10 + 10);
+      LEN_OF_SEQUENCE = 2;
+      EsploraTFT.stroke(0, 0, 255);
+      EsploraTFT.text("INCORRECT!", 5, 100);
+      EsploraTFT.text("RIGHT to retry", 5, 110);
       break;
     }
-
-
-
     delay(333);
   }
+
   // if user correctly repeats the sequence increase level
   if (isSequenceCorrect) {
-    MAX_LEN_OF_SEQUENCE++;
-    //    winScreen();
+    LEN_OF_SEQUENCE++;
+    EsploraTFT.stroke(0, 123, 0);
+    EsploraTFT.text("CORRECT!", 5, 100);
+    EsploraTFT.text("RIGHT to continue", 5, 110);
+    delay(100);
+  }
+  if (LEN_OF_SEQUENCE == MAX_LEN_OF_SEQUENCE) {
+    EsploraTFT.background(0, 0, 0);
+    EsploraTFT.stroke(0, 255, 255);
+    EsploraTFT.setTextSize(7);
+    EsploraTFT.text("WIN!", 10, 30);
+    EsploraTFT.setTextSize(2);
+  } else {
+    
   }
 }
-
-//void winScreen(){
-//  EsploraTFT.text()
-//}
 
 void flashLedSequence() {
   // Define possible colors
@@ -157,7 +172,8 @@ void flashLedSequence() {
     Esplora.writeRGB(colors[colorOption][0], colors[colorOption][1], colors[colorOption][2]);
 
     // Remember flashed color option in sequence
-    ledSequence[i] = static_cast<int>(colorOption);
+    ledSequence[i] = colorOption;
+    Serial.println(ledSequence[i]);
     delay(500);
 
     // Turn off RGB LED
