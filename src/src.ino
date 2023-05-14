@@ -2,6 +2,7 @@
 #include "ledGame.h"
 #include "mainMenu.h"
 #include "highestScore.h"
+
 void setup() {
   EsploraTFT.begin();
   menuInit();
@@ -9,14 +10,12 @@ void setup() {
   srand(time(NULL));
 }
 
+// menuState determines which option is sellected at the moment
 int menuState = MATH_SEL;
+// prevGameState determines to what state return  
 int prevGameState = SELECTION;
-int prevState = -1;
 
 void loop() {
-  Serial.println(MATH_MAX_SCORE );
-  Serial.println(LED_MAX_SCORE);
-
   if (prevGameState == SELECTION) {
     if (!Esplora.readButton(SWITCH_DOWN)) {
       switchMenuDown();
