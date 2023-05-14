@@ -23,7 +23,7 @@ char op;
 int options[3];
 int correct_answer_pos;
 int correct_answers;
-int counter = 0;
+//int counter = 0;
 int numOfCorrectAnswers = -1;
 int MATH_MAX_SCORE = 0;
 void mathGameMain() {

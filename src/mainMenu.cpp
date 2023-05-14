@@ -34,7 +34,6 @@ void switchMenuUp(){
       menuState = LED_SEL;
       break;
   }
-
 }
 
 void switchMenuDown(){
@@ -49,7 +48,6 @@ void switchMenuDown(){
       menuState = MATH_SEL;
       break;
   }
-
 }
 
 void updateMenuState(){
@@ -63,12 +61,10 @@ void updateMenuState(){
     case SCORE_SEL:
       highlightMenuOption(5, 75, "Highest score");
       break;
-   }
-  
+   } 
 }
 
 void highlightMenuOption(int x, int y, const char *txt) {
-    const char *text = txt;
     EsploraTFT.stroke(255, 0, 0);  
     EsploraTFT.text(txt, x, y);
     EsploraTFT.stroke(0, 255, 255);  

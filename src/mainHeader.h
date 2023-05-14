@@ -1,9 +1,11 @@
 #pragma once 
 
+// To detect which option is sellected
 enum MENU_STATES{
   MATH_SEL, LED_SEL, SCORE_SEL
 };
 
+// To detect in which game state
 enum GAME_STATES{
   SELECTION, MATH_GAME, LED_GAME, SCORE_CHECK
 };
