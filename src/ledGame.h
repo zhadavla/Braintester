@@ -1,34 +1,35 @@
 #pragma once
 
-#include <Arduino.h>
 #include "mainHeader.h"
 #include "mainMenu.h"
 #include "helperStrFunctions.h"
 
+// threshold for detcting the joystick position
 #define THRESHOLD 50
-
-enum ledUserInput {
-  LED_SEL1, LED_SEL2, LED_SEL3
-};
-
-enum JoystickPosition {
-  UP, DOWN, LEFT, RIGHT
-};
 
 // Define enum for color options
 enum ColorOption {
   GREEN,
   RED,
-  BLUE, 
+  BLUE,
   YELLOW,
   NONE
 };
 
-
+/*
+   Show in which direction joystick should be moved to choose color
+*/
+void showHelper();
 ColorOption getJoystickPosition();
+/*
+    Show inital image
+*/
 void ledGameInit();
-void ledGameStart();
+/*
+    Controls whole led game
+*/
 void ledGameMain() ;
+/*
+   Randomly generates led sequence
+*/
 void flashLedSequence() ;
-void ledSwitchUp();
-void ledSwitchDown();
