@@ -2,6 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+// functions programed by myself earlier
+
 /*
     Function get_num_of_digits returns number of digits in the number
 */
@@ -25,10 +27,6 @@ size_t  get_num_of_digits(int n)
   return (num);
 }
 
-/*
-    Makes string representation of the number,
-    allocates memory for the string and returns it.
-*/
 char  *ft_itoa(int n)
 {
   char  *str_num;
@@ -56,8 +54,6 @@ char  *ft_itoa(int n)
   }
   return (str_num);
 }
-
-
 
 char* makeEquationString(int x, int y, char operation) {
   char *str = new char[20];
