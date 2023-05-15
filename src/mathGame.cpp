@@ -23,9 +23,9 @@ int answer, num1, num2;
 char op;
 int options[3];
 int correct_answer_pos;
-int correct_answers;
-int numOfCorrectAnswers = -1;
-int MATH_MAX_SCORE = 0;
+int correct_answers = 0; // number of correct answers in the current game
+int numOfCorrectAnswers = -1; // number of correct answers in the whole game
+int MATH_MAX_SCORE = 0; // the hightest number of correct answers of all games
 
 
 void mathGameMain() {
@@ -104,6 +104,7 @@ void mathUserInput() {
   // if correct answer
   if (mathSelectedOption == correct_answer_pos) {
     correct_answers++; // increase number of them
+    numOfCorrectAnswers++; 
     if (numOfCorrectAnswers > MATH_MAX_SCORE) MATH_MAX_SCORE = numOfCorrectAnswers;
     if (correct_answers == CORRECT_ANSWERS_THRESHOLD) {
       correct_answers = 0;
@@ -111,6 +112,7 @@ void mathUserInput() {
       if (max_num > MAX_NUM_MAX) max_num = MAX_NUM_MAX;
     }
   } else {
+    numOfCorrectAnswers = 0;
     correct_answers = 0;
     max_num = MAX_NUM_START;
   }
