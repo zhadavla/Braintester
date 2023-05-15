@@ -16,6 +16,9 @@ enum ColorOption {
   NONE
 };
 
+
+void ledUserInput();
+
 /*
    Show in which direction joystick should be moved to choose color
 */
