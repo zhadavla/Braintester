@@ -2,7 +2,7 @@
 The BrainTester project is a fun and challenging way to improve your memory and math skills using the Esplora buttons and TFT display on the Arduino Esplora platform. See [example](https://www.youtube.com/watch?v=GyxJ-AacweE)
 
 ## Features
-The project includes two games:
+The project includes two games: 
 
 **Random LED Flashing mode**: The screen randomly flashes one of four lights, and the player must identify which lights were illuminated. The difficulty level increases as the length of the light sequence increases.
 
