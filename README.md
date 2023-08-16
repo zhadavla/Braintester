@@ -1,5 +1,5 @@
 # BrainTester Project
-The BrainTester project is a fun and challenging way to improve your memory and math skills using the Esplora buttons and TFT display on the Arduino Esplora platform. See (example)[https://www.youtube.com/watch?v=GyxJ-AacweE]
+The BrainTester project is a fun and challenging way to improve your memory and math skills using the Esplora buttons and TFT display on the Arduino Esplora platform. See [example](https://www.youtube.com/watch?v=GyxJ-AacweE)
 
 ## Features
 The project includes two games:
